@@ -1,0 +1,322 @@
+% USST 学术风格 Beamer 模板
+% 编译方式：XeLaTeX
+% This template is adapted from the "Template slide [ENGL]" from the DataIA Institute.
+% Original source: https://www.dataia.eu/en/node/1618
+% ==================================================
+\documentclass[10pt, aspectratio=169]{beamer}
+
+% ==================================================
+% 1. 宏包与基础配置
+% ==================================================
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\usepackage{graphicx}
+\graphicspath{{./Image/}} % 图片默认搜索路径为当前目录下的 Image 文件夹
+\setmainlanguage{english}
+\usepackage{tikz}
+\usepackage{hyperref} % 提供 \url 命令支持及 PDF 超链接
+\usepackage{url}      % 辅助处理网址换行
+
+% 禁止 Beamer 篡改数学公式字体，恢复原生 LaTeX 数学字体
+\usefonttheme{professionalfonts} 
+
+% ==================================================
+% 2. 全局参数定义（在这里修改你的专属信息）
+% ==================================================
+% --- Logo 路径 ---
+\newcommand{\logoDarkBg}{USST_Logo_(0,0,0,0).png}       % 深色背景用的 Logo (如封面、过渡页)
+\newcommand{\logoLightBg}{USST_Logo_(1,1,0.3,0).png}    % 浅色背景用的 Logo (如内容页)
+
+% --- 自定义颜色 ---
+\definecolor{USSTblue}{cmyk}{1,1,0.3,0}     % 主色：群青色
+\definecolor{USSTorange}{cmyk}{0,0.75,1,0}  % 强调色：亮橙色
+
+% --- 演示文稿元数据 ---
+\newcommand{\presTitle}{Your Title}
+\newcommand{\presSubtitle}{Your Subtitle}
+\newcommand{\presAuthor}{First name; Last name}
+\newcommand{\presRole}{University of Shanghai for Science and Technology}
+\newcommand{\presDate}{dd/mm/yyyy}
+
+% ==================================================
+% 3. Beamer 全局样式设置
+% ==================================================
+\setbeamertemplate{navigation symbols}{}     % 隐藏右下角导航符号
+\setbeamercolor{background canvas}{bg=white} % 设置默认背景为纯白
+\setbeamertemplate{footline}{}               % 隐藏默认页脚
+\setbeamertemplate{headline}{}               % 隐藏默认页眉
+
+% 【修改指南】调整正文左右边距（默认 0.7cm，与顶部标题栏文字对齐）
+% 修改建议：如需文字更靠边，可改为 0.5cm
+\setbeamersize{text margin left=0.7cm, text margin right=0.7cm} 
+
+\newlength{\slidewidth}
+\setlength{\slidewidth}{\the\paperwidth} % 获取页面总宽度，用于居中计算
+
+% ==================================================
+% 4. 自定义组件与页面模板 (核心部分，一般无需修改)
+% ==================================================
+
+% --- 4.1 底部右下角 Logo 宏 ---
+\newcommand{\dataiaBadge}[1]{%
+    \begin{tikzpicture}[remember picture, overlay]
+        % 【修改指南】调整 Logo 的位置和大小
+        % xshift, yshift: 控制 Logo 距离右下角的水平/垂直偏移量
+        % height=0.5cm: 控制 Logo 的高度（如需调大改为 0.6cm）
+        \node[anchor=south east, xshift=-0.4cm, yshift=0.3cm] at (current page.south east) {%
+            \includegraphics[height=0.5cm]{#1}%
+        };
+    \end{tikzpicture}%
+}
+
+% --- 4.2 顶部蓝色标题栏 (内容页) ---
+\setbeamertemplate{frametitle}{
+    \begin{tikzpicture}[remember picture, overlay]
+        % 【修改指南】调整顶部蓝色色块的高度 (默认 1.7cm)
+        % 修改建议：若想变窄，改为 1.4cm；变宽改为 2.0cm
+        \fill[USSTblue] (current page.north west) rectangle ([yshift=-1.7cm]current page.north east);
+        
+        % 【修改指南】调整标题文字的水平和垂直位置
+        % xshift=0.7cm: 距离左边缘的距离 (需与上面的边距保持一致)
+        % yshift=-0.85cm: 垂直居中位置 (通常设为色块高度的一半，即 -1.7cm/2)
+        \node[anchor=west, text=white, font=\bfseries\Large, xshift=0.7cm]
+            at ([yshift=-0.85cm]current page.north west) {\insertframetitle};
+    \end{tikzpicture}
+    \dataiaBadge{\logoLightBg} % 调用右下角 Logo
+    % 【修改指南】强制正文下移，避开蓝色色块。此数值必须与上方色块高度一致！
+    \vspace{1.7cm} 
+}
+
+% --- 4.3 内容页自动编号 ---
+\newcounter{secframe}[section]
+% 替代 \frametitle，自动加上 "章.节 标题"
+\newcommand{\contentTitle}[1]{%
+    \stepcounter{secframe}
+    \frametitle{\thesection.\thesecframe\ #1}%
+}
+
+% --- 4.4 图片与图例编号设置 ---
+% 请将所有图片放置在Image文件夹下
+\renewcommand{\thefigure}{\thesection.\arabic{figure}} % 图号设为 "章.图"
+\setbeamertemplate{caption}[numbered]                  % 开启编号
+\setbeamertemplate{caption label separator}{ }         % 冒号换空格
+\setbeamerfont{caption}{size=\scriptsize}              % 图例小字号
+
+% --- 4.5 全局封面页 (\slideTitle) ---
+\newcommand{\slideTitle}{%
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture, overlay]
+            \fill[USSTblue] (current page.south west) rectangle (current page.north east);
+            
+            % 日期 (右上角) 
+            % 【修改指南】xshift/yshift 控制边距，负数表示向左/向下偏移
+            \node[anchor=north east, text=white, font=\small, xshift=-0.6cm, yshift=-0.5cm]
+                at (current page.north east) {\presDate};
+                
+            % 主标题与装饰线
+            % 【修改指南】yshift=1.0cm 控制主标题在页面中央偏上的位置
+            \node (title) [text=white, font=\bfseries\Huge, align=center]
+                at ([yshift=1.0cm]current page.center) {\presTitle};
+                
+            % 橙色装饰线
+            % 【修改指南】line width=1.5 pt 控制线宽；yshift=-0.2cm 控制线距离主标题的距离
+            \draw[USSTorange, line width=1.5 pt, shorten <=-0.15cm, shorten >=-0.15cm]
+                ([yshift=-0.2cm]title.south west) -- ([yshift=-0.2cm]title.south east);
+                
+            % 副标题
+            % 【修改指南】yshift=-0.5cm 控制副标题距离页面中心的位置
+            \node[text=white!70, font=\normalsize]
+                at ([yshift=-0.5cm]current page.center) {\presSubtitle};
+                
+            % 作者与单位 (左下角)
+            % 【修改指南】调整 yshift 可以改变作者和单位之间的行距，以及距离底部的距离
+            \node[anchor=south west, text=white, font=\bfseries\small, xshift=0.6cm, yshift=0.85cm]
+                at (current page.south west) {\presAuthor};
+            \node[anchor=south west, text=white, font=\footnotesize, xshift=0.6cm, yshift=0.3cm]
+                at (current page.south west) {\presRole};
+        \end{tikzpicture}
+        \dataiaBadge{\logoDarkBg} 
+    \end{frame}
+}
+
+% --- 4.6 章节过渡页 (\slideSection) ---
+% 用法：\slideSection[副标题(可选)]{主标题(必填)}
+\newcommand{\slideSection}[2][]{%
+    \section{#2} 
+    \setcounter{figure}{0} % 每章重置图片编号
+    \begin{frame}[plain]
+        \begin{tikzpicture}[remember picture, overlay]
+            \fill[USSTblue] (current page.south west) rectangle (current page.north east);
+            
+            % 章节标题
+            \node (title) [text=white, font=\bfseries\LARGE, align=center] 
+                at ([yshift=1.0cm]current page.center) {#2};
+            % 装饰线
+            \draw[USSTorange, line width=1.5 pt, shorten <=-0.15cm, shorten >=-0.15cm]
+                ([yshift=-0.2cm]title.south west) -- ([yshift=-0.2cm]title.south east);
+                
+            % 副标题 (如果存在则渲染)
+            \ifx\relax#1\relax\else
+                % 【修改指南】text width=0.6\slidewidth 控制副标题最大换行宽度（当前为屏幕宽度的60%）
+                \node[text=white!70, font=\normalsize, align=center, text width=0.6\slidewidth]
+                    at ([yshift=-0.3cm]current page.center) {#1};
+            \fi
+        \end{tikzpicture}
+    \end{frame}
+}
+
+% --- 4.7 目录页 (TOC) 样式 ---
+\setbeamerfont{section in toc}{size=\large, series=\bfseries}
+\setbeamercolor{section in toc}{fg=USSTblue}
+\setbeamertemplate{section in toc}{%
+    % 【修改指南】leftskip=1.3em 控制整体缩进；vspace{0.45em} 控制条目之间的垂直行距
+    \leavevmode\leftskip=1.3em
+    \llap{\usebeamercolor[fg]{section in toc}\textbullet\hspace{0.6em}}%
+    \inserttocsection\par\vspace{0.45em}%
+}
+
+
+% ==================================================
+% 5. 正文内容演示 (套用指南)
+% ==================================================
+\begin{document}
+
+% --------------------------------------------------
+% 样式 A：封面页
+% --------------------------------------------------
+\slideTitle
+
+% --------------------------------------------------
+% 样式 B：目录页
+% --------------------------------------------------
+\begin{frame}[shrink] 
+    \frametitle{Outline}
+    \vspace{0.3cm} % 【修改指南】控制目录与顶部标题栏的间距
+    \tableofcontents
+\end{frame}
+
+% ==================================================
+% 第一章演示
+% ==================================================
+\slideSection[Subtitle]{Title}
+
+% --------------------------------------------------
+% 样式 C：单栏图文 / 公式页
+% --------------------------------------------------
+\begin{frame}[t]
+    \contentTitle{Title}
+    \vspace{-0.3cm} % 【修改指南】向上微调正文，缩小与标题栏的距离。如果内容太少觉得空，可改为 0cm 或正数
+    \textbf{...}
+    \begin{itemize}
+        \item ...:
+        \[equation\]
+        describe
+        \item ...: 
+        \[equation\]
+        describe
+    \end{itemize}
+\end{frame}
+
+% --------------------------------------------------
+% 样式 D：双栏图文并排页
+% --------------------------------------------------
+\begin{frame}[t]
+    \contentTitle{Title}
+    \vspace*{-0.3cm} % 【修改指南】控制正文整体上移量
+    \begin{columns}[T, onlytextwidth]
+        % 左栏 (文本)
+        % 【修改指南】column{0.5\textwidth} 控制比例（0.5 即 50%），确保左右两栏加起来不超过 1.0
+        \column{0.5\textwidth}
+            \raggedright
+            \textbf{...}
+            \begin{itemize}
+                \item ...
+                \item ...
+            \end{itemize}
+            
+            \textbf{...}
+            \begin{itemize}
+                \item ...:\quad\(equation\)
+                \item ...:\quad\(equation\)
+            \end{itemize}
+            
+        % 右栏 (图片)
+        \column{0.5\textwidth}
+            \begin{figure}
+                \raggedright 
+                % 【修改指南】height=0.42\textheight 限制图片最大高度（页面高度的42%），keepaspectratio 保证不变形
+                \includegraphics[width=\textwidth, height=0.42\textheight, keepaspectratio]{Image_default.png}
+                \caption{figuretitle}
+                \vspace{-0.15cm} % 【修改指南】缩小图片与下方网址的间距
+                {\scriptsize\url{https://www.usst.edu.cn/}\par}
+            \end{figure}
+    \end{columns}
+\end{frame}
+
+% --------------------------------------------------
+% 样式 E：多图并排页
+% --------------------------------------------------
+\begin{frame}[t]
+    \contentTitle{Title}
+    \vspace*{-0.8cm} % 【修改指南】多图需要更多空间，这里采用较大的负间距将内容整体上提
+    \begin{columns}[T, onlytextwidth]
+        % 图 1
+        % 【修改指南】三张图并排，每张占 31% 宽度（留出间隙）
+        \column{0.31\textwidth} 
+            \begin{figure}
+                \centering
+                % 【修改指南】height=0.28\textheight 限制单图高度（页面高度的28%）
+                \includegraphics[width=\linewidth, height=0.28\textheight, keepaspectratio]{Image_default.png}
+                \caption{figuretitle}
+            \end{figure}
+        % 图 2
+        \column{0.31\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\linewidth, height=0.28\textheight, keepaspectratio]{Image_default.png}
+                \caption{figuretitle}
+            \end{figure}
+        % 图 3
+        \column{0.31\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=\linewidth, height=0.28\textheight, keepaspectratio]{Image_default.png}
+                \caption{figuretitle}
+            \end{figure}
+    \end{columns}
+    \vspace{0.3cm} % 【修改指南】控制上方图片与下方文字说明的间距
+    \begin{itemize}
+        \small % 【修改指南】下方文字整体缩小一号 (\small)
+        \item \textbf{...} ...
+        \item \textbf{...} ...
+        \item \textbf{...} ...
+    \end{itemize}
+\end{frame}
+
+% ==================================================
+% 参考文献演示
+% ==================================================
+
+% --------------------------------------------------
+% 样式 F：参考文献页
+% --------------------------------------------------
+\begin{frame}[t]
+    \frametitle{References}
+    \vspace*{-0.2cm}
+    \footnotesize % 【修改指南】全局设定此页字体为极小号，若觉得太小可改为 \small
+    \begin{enumerate}
+        \item ...
+        \textit{...}. ...
+        \\
+        {\scriptsize \url{https://www.usst.edu.cn/}} % 【修改指南】网址使用更小的 \scriptsize
+        \vspace{0.15cm} % 【修改指南】控制两篇文献之间的上下间距
+        
+        \item ...
+        \textit{...}. ...
+        \\
+        {\scriptsize \url{https://www.usst.edu.cn/}}
+        \vspace{0.15cm}
+    \end{enumerate}
+\end{frame}
+
+\end{document}
