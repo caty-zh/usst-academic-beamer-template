@@ -24,6 +24,40 @@
 
 ---
 
+## 📸 预览图 (Preview)
+
+<!-- 封面单独一排，宽度设为 60% 显得更突出 -->
+<p align="center">
+  <img src="Preview/Preview_1.png" alt="封面页" width="60%">
+</p>
+
+<details>
+  <summary>👉 点击展开查看全部排版预览 (共 6 页)</summary>
+  <br>
+  <!-- 第 1 组：两两一排 -->
+<p align="center">
+  <img src="Preview/Preview_2.png" alt="内容页1" width="45%">
+  &nbsp;&nbsp;&nbsp;
+  <img src="Preview/Preview_3.png" alt="内容页2" width="45%">
+</p>
+
+<!-- 第 2 组：两两一排 -->
+<p align="center">
+  <img src="Preview/Preview_4.png" alt="内容页3" width="45%">
+  &nbsp;&nbsp;&nbsp;
+  <img src="Preview/Preview_5.png" alt="内容页4" width="45%">
+</p>
+
+<!-- 第 3 组：两两一排 -->
+<p align="center">
+  <img src="Preview/Preview_6.png" alt="内容页5" width="45%">
+  &nbsp;&nbsp;&nbsp;
+  <img src="Preview/Preview_7.png" alt="内容页6" width="45%">
+</p>
+</details>
+
+---
+
 ## 🚀 快速开始 (Quick Start)
 
 ### 1. 环境要求
