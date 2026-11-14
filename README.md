@@ -96,10 +96,15 @@
 
 ### 3. 调整排版间距与大小 (进阶)
 模板中预留了详细的中文注释，教你如何微调：
+
 调整正文左右边距：修改 \setbeamersize{text margin left=0.7cm, text margin right=0.7cm}。
+
 调整图片大小：修改 \includegraphics[width=\textwidth, height=0.42\textheight, ...] 中的 height 数值。
+
 调整标题栏高度：修改 \fill[USSTblue] ... ([yshift=-1.7cm] ...) 中的 1.7cm，同时记得修改下方的 \vspace{1.7cm} 保持一致。
+
 调整元素位置：通过修改 xshift（水平偏移）和 yshift（垂直偏移）的正负数值来实现。
+
 *提示：在 Markdown 代码块（``` 之间的内容）中，可以完美嵌套 LaTeX 的代码块，GitHub 渲染时会自动高亮显示，非常美观。*
 
 ---
