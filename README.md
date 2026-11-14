@@ -11,7 +11,7 @@
 *   **官方来源**: [https://www.dataia.eu/en/node/1618](https://www.dataia.eu/en/node/1618)
 *   **原版 Overleaf 链接**: [Template slide [ENGL]](https://www.overleaf.com/latex/templates/template-slide-engl/fbnvwwqbvktm)
 
-> **修改说明**：本模板在原版基础上，重构了底部 Logo 逻辑，添加了 USST 专属主题色，并针对学术汇报中常用的“图文并排”、“多图对比”、“参考文献”等场景制作了即插即用的版式模板。
+> **修改说明**：本模板在原版基础上，更换了底部 Logo，添加了 USST 专属主题色，并针对学术汇报中常用的“图文并排”、“多图对比”、“参考文献”等场景制作了即插即用的版式模板。
 
 ---
 
